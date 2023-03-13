@@ -22,6 +22,7 @@
           bindings = <&kp>, <&kp>;
       };
 
+// TODO remove the MOD_LGUI on mods, some shortcuts don't work appropriately
       s_N1: plus_kp_n1 {
         compatible = "zmk,behavior-mod-morph";
         label = "plus_kp_n1";
@@ -118,7 +119,7 @@
           compatible = "zmk,behavior-mod-morph";
           label = "grave_grave";
           #binding-cells = <0>;
-          bindings = <&kp GRAVE>, <&kp GRAVE>;
+          bindings = <&kp GRAVE>, <&kp PIPE>;
           mods = <(MOD_LGUI|MOD_LSFT|MOD_RGUI|MOD_RSFT)>;
       };
       bhash: bslh_hash {
@@ -146,8 +147,8 @@
         &ppipe    &s_N1     &s_N2     &s_N3      &s_N4      &s_N5  &tog 1                                                                           &mo 3    &s_N6  &s_N7     &s_N8  &s_N9   &s_N0  &eprcnt
         &kp TAB   &kp SEMI  &kp COMMA &kp DOT    &kp P      &kp Y  &caps_word                                                                       &none    &kp F  &kp G     &kp C  &kp R   &kp L  &kp FSLH
         &kp ESC   &kp A     &kp O     &kp E      &kp U      &kp I  &kp HK_L         &kp LCTRL &kp LALT   &none &none  &kp DEL  &kp RCTRL            &kp HK_R &kp D  &kp H     &kp T  &kp N   &kp S  &kp MINUS
-        &kp LSHFT &kp SQT   &kp Q     &kp J      &kp K      &kp X              &none    &none     &kp HOME &none &none &kp PG_UP &none   &none      &kp B    &kp M  &kp W     &kp V  &kp Z   &kp RSHFT
-        &mo 2     &dtilde   &ggrave   &kp LEFT   &kp RIGHT                &kp BSPC &kp LGUI   &kp END              &kp PG_DN &kp ENTER &kp SPACE             &kp UP &kp DOWN  &bhash &acaret &mo 2
+        &kp LSHFT &kp SQT   &kp Q     &kp J      &kp K      &kp X              &none  &none   &kp HOME   &none &none &kp PG_UP &none   &none                 &kp B  &kp M     &kp W  &kp V   &kp Z  &kp RSHFT
+        &mo 2     &dtilde   &ggrave   &kp LEFT   &kp RIGHT                &kp BSPC &kp LGUI &kp END              &kp PG_DN &kp ENTER &kp SPACE               &kp UP &kp DOWN  &bhash &acaret &mo 2
       >;
     };
     keypad {
@@ -163,7 +164,7 @@
       bindings = <
         &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &tog 1                                                       &mo 3 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
         &trans &trans &trans &trans &trans &trans  &none                                                       &none &trans &trans &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans &trans  &none        &trans &trans &none &none &trans &trans        &none &trans &trans &trans &trans  &trans  &trans
+        &trans &trans &trans &trans &trans &trans  &none        &trans &trans &none &none &trans &trans        &none &trans &trans &trans &trans  &kp C_PP  &trans
         &trans &trans &trans &trans &trans &trans        &none  &none  &trans &none &none &trans &none  &none        &trans &trans &trans &trans  &trans  &trans
         &trans &trans &trans &trans &trans               &trans &trans &trans             &trans &trans &trans              &trans &trans &trans  &trans  &trans
       >;
