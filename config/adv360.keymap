@@ -8,6 +8,14 @@
 #define HK_L LS(LC(LA(LGUI)))
 #define HK_R RS(RC(RA(RGUI)))
 
+// Layers
+#define NEO_DVORAK 0
+#define CAPS_WORD 1
+#define KEYPAD  2
+#define FN 3
+#define MOD 4
+#define QWERTY 5
+
 / {
     behaviors {
       #include "macros.dtsi"
@@ -22,7 +30,6 @@
           bindings = <&kp>, <&kp>;
       };
 
-// TODO remove the MOD_LGUI on mods, some shortcuts don't work appropriately
       s_N1: plus_kp_n1 {
         compatible = "zmk,behavior-mod-morph";
         label = "plus_kp_n1";
@@ -137,32 +144,56 @@
         mods = <(MOD_LSFT|MOD_RSFT)>;
       };
 
+      new_caps_word: new_caps_word {
+          label = "new_caps_word";
+          compatible = "zmk,behavior-macro";
+          #binding-cells = <0>;
+          bindings
+              = <&macro_tap &caps_word &tog CAPS_WORD>;
+      };
+      new_space: new_space {
+         label = "new_space";
+         compatible = "zmk,behavior-macro";
+         #binding-cells = <0>;
+         bindings
+             = <&macro_tap &kp SPACE &tog CAPS_WORD>;
+     };
+
     };
 
   keymap {
     compatible = "zmk,keymap";
 
-    default_layer {
+    neo_dvorak {
       bindings = <
-        &ppipe    &s_N1     &s_N2     &s_N3      &s_N4      &s_N5  &tog 1                                                                           &mo 3    &s_N6  &s_N7     &s_N8  &s_N9   &s_N0  &eprcnt
-        &kp TAB   &kp SEMI  &kp COMMA &kp DOT    &kp P      &kp Y  &caps_word                                                                       &none    &kp F  &kp G     &kp C  &kp R   &kp L  &kp FSLH
+        &ppipe    &s_N1     &s_N2     &s_N3      &s_N4      &s_N5  &tog KEYPAD                                                                           &mo MOD    &s_N6  &s_N7     &s_N8  &s_N9   &s_N0  &eprcnt
+        &kp TAB   &kp SEMI  &kp COMMA &kp DOT    &kp P      &kp Y  &new_caps_word                                                                       &none    &kp F  &kp G     &kp C  &kp R   &kp L  &kp FSLH
         &kp ESC   &kp A     &kp O     &kp E      &kp U      &kp I  &kp HK_L         &kp LCTRL &kp LALT   &none &none  &kp DEL  &kp RCTRL            &kp HK_R &kp D  &kp H     &kp T  &kp N   &kp S  &kp MINUS
         &kp LSHFT &kp SQT   &kp Q     &kp J      &kp K      &kp X              &none  &none   &kp HOME   &none &none &kp PG_UP &none   &none                 &kp B  &kp M     &kp W  &kp V   &kp Z  &kp RSHFT
-        &mo 2     &dtilde   &ggrave   &kp LEFT   &kp RIGHT                &kp BSPC &kp LGUI &kp END              &kp PG_DN &kp ENTER &kp SPACE               &kp UP &kp DOWN  &bhash &acaret &mo 2
+        &mo FN     &dtilde   &ggrave   &kp LEFT   &kp RIGHT                &kp BSPC &kp LGUI &kp END              &kp PG_DN &kp ENTER &kp SPACE               &kp UP &kp DOWN  &bhash &acaret &mo FN
+      >;
+    };
+    caps_word {
+      bindings = <
+        &ppipe    &s_N1     &s_N2     &s_N3      &s_N4      &s_N5  &tog KEYPAD                                                                           &mo MOD    &s_N6  &s_N7     &s_N8  &s_N9   &s_N0  &eprcnt
+        &kp TAB   &kp SEMI  &kp COMMA &kp DOT    &kp P      &kp Y  &caps_word                                                                       &none    &kp F  &kp G     &kp C  &kp R   &kp L  &kp FSLH
+        &kp ESC   &kp A     &kp O     &kp E      &kp U      &kp I  &kp HK_L         &kp LCTRL &kp LALT   &none &none  &kp DEL  &kp RCTRL            &kp HK_R &kp D  &kp H     &kp T  &kp N   &kp S  &kp UNDERSCORE
+        &kp LSHFT &kp SQT   &kp Q     &kp J      &kp K      &kp X              &none  &none   &kp HOME   &none &none &kp PG_UP &none   &none                 &kp B  &kp M     &kp W  &kp V   &kp Z  &kp RSHFT
+        &mo FN     &dtilde   &ggrave   &kp LEFT   &kp RIGHT                &kp BSPC &kp LGUI &kp END              &kp PG_DN &kp ENTER &new_space               &kp UP &kp DOWN  &bhash &acaret &mo FN
       >;
     };
     keypad {
       bindings = <
-        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &trans                                                                       &mo 3 &kp N6 &kp KP_NUM &kp KP_EQUAL &kp KP_DIVIDE &kp KP_MULTIPLY &kp MINUS
+        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &trans                                                                       &mo MOD &kp N6 &kp KP_NUM &kp KP_EQUAL &kp KP_DIVIDE &kp KP_MULTIPLY &kp MINUS
         &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                                        &none &kp Y  &kp KP_N7  &kp KP_N8    &kp KP_N9     &kp KP_MINUS    &kp BSLH
         &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp LCTRL &kp LALT &none &none &kp LGUI  &kp RCTRL           &none &kp H  &kp KP_N4  &kp KP_N5    &kp KP_N6     &kp KP_PLUS     &kp SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B         &none    &none     &kp HOME &none &none &kp PG_UP &none     &none           &kp N  &kp KP_N1  &kp KP_N2    &kp KP_N3     &kp KP_ENTER    &kp RSHFT
-        &mo 2     &kp GRAVE &kp CAPS &kp LEFT &kp RIGHT                &kp BSPC &kp DEL   &kp END              &kp PG_DN &kp ENTER &kp KP_N0              &kp UP     &kp DOWN     &kp KP_DOT    &kp RBKT        &mo 2
+        &mo FN     &kp GRAVE &kp CAPS &kp LEFT &kp RIGHT                &kp BSPC &kp DEL   &kp END              &kp PG_DN &kp ENTER &kp KP_N0              &kp UP     &kp DOWN     &kp KP_DOT    &kp RBKT        &mo FN
       >;
     };
     fn {
       bindings = <
-        &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &tog 1                                                       &mo 3 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
+        &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &tog KEYPAD                                                       &mo MOD &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
         &trans &trans &trans &trans &trans &trans  &none                                                       &none &trans &trans &trans &trans  &trans  &trans
         &trans &trans &trans &trans &trans &trans  &none        &trans &trans &none &none &trans &trans        &none &trans &trans &trans &trans  &kp C_PP  &trans
         &trans &trans &trans &trans &trans &trans        &none  &none  &trans &none &none &trans &none  &none        &trans &trans &trans &trans  &trans  &trans
@@ -176,6 +207,15 @@
         &none &none        &none        &none        &none        &none        &rgb_ug RGB_MEFS_CMD 5                 &bt BT_CLR &bt BT_CLR &none &none &bt BT_CLR &bt BT_CLR                 &rgb_ug RGB_MEFS_CMD 5 &none        &none        &none        &none        &none        &none
         &none &none        &none        &none        &none        &none                               &none           &none      &none      &none &none &none      &none      &none                                  &none        &none        &none        &none        &none        &none
         &none &none        &none        &bl BL_INC   &bl BL_DEC                                       &rgb_ug RGB_TOG &bl BL_TOG &none                  &none      &bl BL_TOG &rgb_ug RGB_TOG                                     &bl BL_INC   &bl BL_DEC   &none        &none        &none
+      >;
+    };
+    qwerty {
+      bindings = <
+        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &tog KEYPAD                                                                       &mo MOD &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
+        &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                                        &none &kp Y  &kp U  &kp I     &kp O    &kp P    &kp BSLH
+        &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp LCTRL &kp LALT &none &none &kp LGUI  &kp RCTRL           &none &kp H  &kp J  &kp K     &kp L    &kp SEMI &kp SQT
+        &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B         &none    &none     &kp HOME &none &none &kp PG_UP &none     &none           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
+        &mo FN     &kp GRAVE &kp CAPS &kp LEFT &kp RIGHT                &kp BSPC &kp DEL   &kp END              &kp PG_DN &kp ENTER &kp SPACE              &kp UP &kp DOWN  &kp LBKT &kp RBKT &mo FN
       >;
     };
   };
