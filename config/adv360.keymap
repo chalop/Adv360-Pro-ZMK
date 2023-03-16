@@ -159,6 +159,15 @@
              = <&macro_tap &kp SPACE &tog CAPS_WORD>;
      };
 
+    combos {
+        compatible = "zmk,combos";
+        combo_esc {
+            timeout-ms = <50>;
+            key-positions = <0 1>;
+            bindings = <&tog QWERTY>;
+        };
+    };
+
     };
 
   keymap {
@@ -176,7 +185,7 @@
     caps_word {
       bindings = <
         &ppipe    &s_N1     &s_N2     &s_N3      &s_N4      &s_N5  &tog KEYPAD                                                                           &mo MOD    &s_N6  &s_N7     &s_N8  &s_N9   &s_N0  &eprcnt
-        &kp TAB   &kp SEMI  &kp COMMA &kp DOT    &kp P      &kp Y  &caps_word                                                                       &none    &kp F  &kp G     &kp C  &kp R   &kp L  &kp FSLH
+        &kp TAB   &kp SEMI  &kp COMMA &kp DOT    &kp P      &kp Y  &new_caps_word                                                                       &none    &kp F  &kp G     &kp C  &kp R   &kp L  &kp FSLH
         &kp ESC   &kp A     &kp O     &kp E      &kp U      &kp I  &kp HK_L         &kp LCTRL &kp LALT   &none &none  &kp DEL  &kp RCTRL            &kp HK_R &kp D  &kp H     &kp T  &kp N   &kp S  &kp UNDERSCORE
         &kp LSHFT &kp SQT   &kp Q     &kp J      &kp K      &kp X              &none  &none   &kp HOME   &none &none &kp PG_UP &none   &none                 &kp B  &kp M     &kp W  &kp V   &kp Z  &kp RSHFT
         &mo FN     &dtilde   &ggrave   &kp LEFT   &kp RIGHT                &kp BSPC &kp LGUI &kp END              &kp PG_DN &kp ENTER &new_space               &kp UP &kp DOWN  &bhash &acaret &mo FN
